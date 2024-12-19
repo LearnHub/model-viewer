@@ -41,6 +41,7 @@ const templateResult = html`
   position: relative;
   outline-offset: -1px;
   outline-width: 1px;
+  outline: none;
 }
 
 canvas {
