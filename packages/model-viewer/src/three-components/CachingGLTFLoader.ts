@@ -25,6 +25,9 @@ import {CacheEvictionPolicy} from '../utilities/cache-eviction-policy.js';
 import GLTFMaterialsVariantsExtension from './gltf-instance/VariantMaterialLoaderPlugin.js';
 import {GLTFInstance, GLTFInstanceConstructor} from './GLTFInstance.js';
 
+// @ts-ignore  
+import { GLTFGoogleTiltBrushMaterialExtension } from "three-icosa";
+
 export type ProgressCallback = (progress: number) => void;
 
 (Texture as any).DEFAULT_ANISOTROPY = 4;
@@ -163,8 +166,10 @@ export class CachingGLTFLoader<T extends GLTFInstanceConstructor =
     this[$loader].setKTX2Loader(ktx2Loader);
   }
 
-  protected[$loader]: GLTFLoader = new GLTFLoader().register(
-      parser => new GLTFMaterialsVariantsExtension(parser));
+  protected[$loader]: GLTFLoader = new GLTFLoader()
+    .register(parser => new GLTFMaterialsVariantsExtension(parser))
+    // XRBRUSH_SHADER_REFACTOR
+    .register(parser => new GLTFGoogleTiltBrushMaterialExtension(parser, `https://dev.avncloud.com/brushes/`));
   protected[$GLTFInstance]: T;
 
   protected get[$evictionPolicy](): CacheEvictionPolicy {
