@@ -243,4 +243,38 @@ export class CachingGLTFLoader<T extends GLTFInstanceConstructor =
 
     return clone;
   }
+
+  async loadWithoutCaching(
+    url: string, element: ModelViewerElementBase,
+    progressCallback: ProgressCallback = () => {}): Promise<InstanceType<T>> {
+    this[$loader].setWithCredentials(element.withCredentials);
+    if (meshoptDecoder != null) {
+      this[$loader].setMeshoptDecoder(await meshoptDecoder);
+    }
+
+    const rawGLTFLoads =
+        loadWithLoader(url, this[$loader], (progress: number) => {
+          progressCallback(progress * 0.8);
+        });
+
+    const GLTFInstance = this[$GLTFInstance];
+    const gltfInstanceLoads = rawGLTFLoads
+      .then((rawGLTF) => {
+        return GLTFInstance.prepare(rawGLTF);
+      })
+      .then((preparedGLTF) => {
+        progressCallback(0.9);
+        return new GLTFInstance(preparedGLTF);
+      })
+      .catch((reason => {
+        console.error(reason);
+        return new GLTFInstance();
+      }));
+    if (progressCallback) {
+      progressCallback(1.0);
+    }
+    const gltf = await gltfInstanceLoads;
+    return gltf as InstanceType<T>;
+  }
+
 }

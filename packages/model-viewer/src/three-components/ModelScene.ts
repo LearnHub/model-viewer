@@ -230,7 +230,7 @@ export class ModelScene extends Scene {
           async (resolve, reject) => {
             this.cancelPendingSourceChange = () => reject();
             try {
-              const result = await this.element[$renderer].loader.load(
+              const result = await this.element[$renderer].loader.loadWithoutCaching(
                   url, this.element, progressCallback);
               resolve(result);
             } catch (error) {
