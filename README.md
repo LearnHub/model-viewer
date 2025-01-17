@@ -125,3 +125,10 @@ Running `npm run dev` in `packages/model-viewer` on Windows throws error `ERROR:
 (if you have one please make a PR!)
 
 </details>
+
+## AVN
+
+The AVN fork includes the following changes:
+
+1. Removal of CSS outline behaviour
+2. Support for OpenBrush material shaders
