@@ -98,9 +98,3 @@ Command                         | Description
 `npm run clean`                 | Deletes all build artifacts
 `npm run dev`                   | Starts `tsc` and `rollup` in "watch" mode, causing artifacts to automatically rebuild upon incremental changes
 
-## AVN
-
-The AVN fork includes the following changes:
-
-1. Removal of CSS outline behaviour
-2. Support for OpenBrush material shaders
