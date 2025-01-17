@@ -54,6 +54,8 @@ export const AnimationMixin = <T extends Constructor<ModelViewerElementBase>>(
     animationName: string|undefined = undefined;
     @property({type: Number, attribute: 'animation-crossfade-duration'})
     animationCrossfadeDuration: number = 300;
+    @property({type: Boolean, attribute: 'animated-materials'})
+    animatedMaterials: Boolean|undefined = undefined;
 
     protected[$paused]: boolean = true;
 
@@ -141,6 +143,10 @@ export const AnimationMixin = <T extends Constructor<ModelViewerElementBase>>(
 
     [$tick](_time: number, delta: number) {
       super[$tick](_time, delta);
+
+      if(this.animatedMaterials && this[$getModelIsVisible]()) {
+        this[$needsRender]();  
+      }
 
       if (this[$paused] ||
           (!this[$getModelIsVisible]() && !this[$renderer].isPresenting)) {
