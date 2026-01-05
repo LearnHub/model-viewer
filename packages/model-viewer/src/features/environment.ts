@@ -38,6 +38,7 @@ export declare interface EnvironmentInterface {
   shadowIntensity: number;
   shadowSoftness: number;
   exposure: number;
+  rotateModel: boolean;
   hasBakedShadow(): boolean;
 }
 
@@ -63,6 +64,9 @@ export const EnvironmentMixin = <T extends Constructor<ModelViewerElementBase>>(
 
     @property({type: String, attribute: 'skybox-height'})
     skyboxHeight: string = '0';
+
+    @property({type: Boolean, attribute: 'rotate-model'})
+    rotateModel: boolean = false;
 
     protected[$currentEnvironmentMap]: Texture|null = null;
     protected[$currentBackground]: Texture|null = null;

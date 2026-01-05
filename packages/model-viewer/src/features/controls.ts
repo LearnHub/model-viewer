@@ -811,6 +811,22 @@ export const ControlsMixin = <T extends Constructor<ModelViewerElementBase>>(
       if (cameraMoved || targetMoved) {
         this[$onChange]();
       }
+
+      // Rotate model instead of orbiting camera (keeps lighting relative to view)
+      if ((this as any).rotateModel) {
+        const spherical = controls.getCameraSpherical();
+        const defaultPhi = 75 * Math.PI / 180; // 75 degrees - matches DEFAULT_CAMERA_ORBIT
+        const deltaPhi = spherical.phi - defaultPhi;
+
+        // Transfer camera rotation to the model
+        if (scene.pivot && (spherical.theta !== 0 || deltaPhi !== 0)) {
+          // Rotate model by theta (horizontal) and phi (vertical)
+          scene.pivot.rotation.y -= spherical.theta; // Negative to match drag direction
+          scene.pivot.rotation.x -= deltaPhi;
+          // Reset camera to default position
+          controls.setOrbit(0, defaultPhi, undefined);
+        }
+      }
     }
 
     [$deferInteractionPrompt]() {
