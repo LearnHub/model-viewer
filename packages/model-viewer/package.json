@@ -85,7 +85,7 @@
   "dependencies": {
     "@monogrid/gainmap-js": "^3.0.1",
     "lit": "^3.2.1",
-    "three-icosa": "^0.4.2-alpha.6"
+    "three-icosa": "github:LearnHub/three-icosa#avn-main"
   },
   "peerDependencies": {
     "three": "^0.170.0"
