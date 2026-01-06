@@ -163,11 +163,11 @@ export default class TextureUtils {
       progressCallback: (progress: number) => void = () => {},
       withCredentials = false): Promise<EnvironmentMapAndSkybox> {
     const useAltEnvironment = environmentMapUrl !== 'legacy';
+    const useNeutralEnvironment = environmentMapUrl === 'neutral';
     if (environmentMapUrl === 'legacy' || environmentMapUrl === 'neutral') {
       environmentMapUrl = null;
     }
     environmentMapUrl = deserializeUrl(environmentMapUrl);
-
     let skyboxLoads: Promise<Texture|null> = Promise.resolve(null);
     let environmentMapLoads: Promise<Texture>;
 
@@ -181,7 +181,7 @@ export default class TextureUtils {
       // We have an available environment map URL
       environmentMapLoads = this.loadEquirectFromUrl(
           environmentMapUrl, withCredentials, progressCallback);
-    } else if (!!skyboxUrl) {
+    } else if (!!skyboxUrl && !useNeutralEnvironment) {
       // Fallback to deriving the environment map from an available skybox
       environmentMapLoads = this.loadEquirectFromUrl(
           skyboxUrl, withCredentials, progressCallback);
